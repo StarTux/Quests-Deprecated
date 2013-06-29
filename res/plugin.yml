@@ -1,0 +1,13 @@
+name: Quests
+description: A quest system with rewards
+author: StarTux
+version: 0.1
+main: com.winthier.quests.QuestsPlugin
+depend: [ Vault ]
+softdepend: [ LibSQL, ProtocolLib, WorldGuard ]
+commands:
+  quest:
+    description: Get quest information
+    usage: /<command> [category]
+    aliases: [ q ]
+permissions: {}

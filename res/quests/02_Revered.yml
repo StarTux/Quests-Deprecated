@@ -1,0 +1,573 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Beginner.yml
+# The Quest category called "Beginner"
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+Name: Revered
+DisplayName: 'Revered Quest'
+Description:
+- 'This is the story of Spawn Village and its brave people
+   standing up against an impending monster invasion.'
+Icon: Iron-Sword
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# This is a specification of the quests.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# - Name: ...
+#   messages:
+#     Title: String
+#     Description: String(List)
+#   effects:
+#     effectkey:
+#       Type: ...
+#       ...
+#   goals:
+#     Goal:
+#       Type: ...
+#       Title: ...
+#       ...
+#   rewards:
+#     ...
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Quest: A quest has some generic and some specific data.
+#   Specific data are in the data section.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+quests:
+- Name: TellWaltAboutMonsters
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Informing Walt
+    Description: [ 'Walt might be interested in this.', 'Let''s find out what he thinks.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Speak to Walt the Watchman'
+      AnimalNames: [ WatchmanWalt ]
+      Messages:
+      - 'Did you run into any monsters? &8*blurp*'
+      - 'What? They must be up to something.'
+      - 'We must make sure they don''t come in the village.'
+      - 'We better gear up, man. But I can''t leave here...'
+      - 'Go, tell Priest McGuffin right away. &8*buuurp*'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: TellPriestAboutMonsters
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Informing McGuffin
+    Description: [ 'Tell Priest McGuffin about the Monsters.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Talk to Priest McGuffin'
+      AnimalNames: [ SpawnPriest ]
+      Messages:
+      - 'Monsters in the wilderness, even Creepers?'
+      - 'Well that can''t be good.'
+      - 'I wonder what it means...'
+      - 'Without anything to defend ourselves, we are in grave danger.'
+      - 'I must prepare books with defensive spells.'
+      - 'Sadly, I''ve run out of empty books...'
+      - 'Say, would you mind bringing me some &bbooks&r?\nI think 20 should do.'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringBooksToPriest
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Knowledge is Power
+    Description: [ 'Priest McGuffin asked you to bring him some books.' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: SpawnPriest
+      Title: You have Books?
+  goals:
+    books:
+      Type: DeliverItems
+      AnimalNames: [ SpawnPriest ]
+      Title: 'Bring some books to McGuffin'
+      Quota: 20
+      Items: [ Book ]
+  hidden-rewards:
+    item: { Book: 1 }
+    xplevel: { Level: 30 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: EnchantBook
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Enchanting Books
+    Description: [ 'Why, thank you. That will do.', 'Why don''t you try it yourself?', 'You can use my table' ]
+  goals:
+    book: { Type: EnchantItem, Title: 'Enchant a book with level 30', Quota: 1, Items: [ Book ], MinExpLevel: 30 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringBookToWalt
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Book Delivery for Walt
+    Description: [ 'Very well done!', 'Would you mind bringing this one to Walt?' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Bring the enchanted book to Walt'
+      AnimalNames: [ WatchmanWalt ]
+      HideScore: true
+      Messages:
+      - 'What is McGuffin thinking? Those don''t help us!'
+      - 'Not unless we have something to enchant that is...'
+      - 'Hey, you wanna be a part of the team, right?'
+      - 'We need some leather to turn it into armor.'
+      - 'Can you kill some cows, then bring their leather to me?'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: LeatherForWalt
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Hunting for Leather
+    Description: [ 'Walt asked you to hunt cows for leather.', 'Can you help him?' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: WatchmanWalt
+      Title: Got the Leather?
+  goals:
+    kill: { Type: KillMobs, Title: 'Hunt Cows', Quota: 24, Entities: [ 'Cow:adult', 'Mushroom_Cow:adult' ] }
+    deliver:
+      Type: DeliverItems
+      Title: 'Bring the Leather to Walt'
+      Quota: 24
+      Items: [ Leather ]
+      AnimalNames: [ WatchmanWalt ]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: WaltThanksForLeather
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages: { Title: Talking to Walt }
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talking to Walt
+      AnimalNames: [ WatchmanWalt ]
+      Messages:
+      - 'Thank you for the leather. &8*burp*'
+      - 'I used it to craft this protective armor.'
+      - 'McGuffin has most of the enchanted books.\n
+         can you bring the armor to him for him to enchant?'
+  hidden-rewards:
+    item: { 'leather-helmet:54': 1, 'leather-chestplate:79': 1, 'leather-leggings:74': 1, 'leather-boots:64': 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringArmorToPriest
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Armor Delivery
+    Description: [ 'McGuffin needs to enchant the leather armor.', 'Can you bring it to him?' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: SpawnPriest
+      Title: Walt sent you?
+  goals:
+    helmet: { Type: DeliverItems, AnimalNames: [ SpawnPriest ], Title: 'Leather Helmet', Items: [ Leather-Helmet ] }
+    chesplate: { Type: DeliverItems, AnimalNames: [ SpawnPriest ], Title: 'Leather Chestplate', Items: [ Leather-Chestplate ] }
+    leggings: { Type: DeliverItems, AnimalNames: [ SpawnPriest ], Title: 'Leather Leggings', Items: [ Leather-Leggings ] }
+    boots: { Type: DeliverItems, AnimalNames: [ SpawnPriest ], Title: 'Leather Boots', Items: [ Leather-Boots ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: PriestThanksForArmor
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages: { Title: Talking to McGuffin }
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talk to McGuffin
+      AnimalNames: [ SpawnPriest ]
+      Messages:
+      - 'Thank you for this fine armor.'
+      - '&8*sigh*&r ...'
+      - 'You know...'
+      - 'It''s a shame to use high level enchantments on cheap materials.'
+      - 'Sadly, Walt doesn''t know how to make better armor.'
+      - 'It''s my dream to create truly heavenly armor to protect the just.'
+      - 'Sadly, I''m not the person to dig mines and venture into caves.'
+      - 'I don''t suppose you could help me out with some gold ingots?'
+      - 'With some gold from the mines of this world, I could create you the best armor you have ever seen.'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: MineGoldForPriest
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Mining Gold
+    Description: [ 'McGuffin needs gold to make better armor.', 'Go under ground and mine as much gold as you can find.' ]
+  goals:
+    mine: { Type: BlockBreak, MustDropExp: false, MustBeNatural: true, Title: 'Mine Gold Ore', Quota: 25, Items: [ Gold-Ore ] }
+    smelt: { Type: Smelting, Title: 'Smelt it into Gold Ingots', Quota: 25, Items: [ Gold-Ingot ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringGoldToPriest
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Gold Delivery
+    Description: [ 'Awesome, you have the gold!', 'McGuffin will appreciate this.' ]
+  constraints:
+    item: { gold_ingot: 25 }
+  goals:
+    gold:
+      Type: AdviceAnimal
+      Title: 'Bring the Gold to McGuffin'
+      AnimalNames: [ SpawnPriest ]
+      HideScore: true
+      Messages:
+      - 'Oh dear, you went through the effort.'
+      - 'I can''t believe you mined all that gold.'
+      - 'Thanks to you, we are very close to making our epic armor.'
+      - 'However, I can''t turn these ingots into armor.'
+      - 'Would you be so kind as to bring it to &bBertie the Blacksmith&r?'
+      - 'Just tell him McGuffin sent you. You can trust him, he''s a good man.'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: MeetBertie
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: Meet the Blacksmith
+    Description: [ 'McGuffin needs the gold to be turned into armor.', 'Follow your compass to find the Bertie the Blacksmith' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talk to Bertie the Blacksmith
+      AnimalNames: [ SpawnBlacksmith ]
+      HideScore: true
+      Messages:
+      - 'Why hello there.'
+      - 'You say McGuffin sent you?'
+      - 'Make gold armor, why?'
+      - 'Oh, he thinks it will give him the strongest armor there is.'
+      - 'Poor old fella, he knows so little about materials.'
+      - 'Gold sure is stronger than leather, but it''s not what he wants.'
+      - 'I would hate to let the man down, though...'
+      - 'You know what, how about we make him the epic armor he''s envisioning?'
+      - 'I have the knowledge to do it.'
+      - 'What I lack are some of the materials.'
+      - 'First of all, I need a stronger forge. This fire isn''t hot enough.'
+      - 'If you want to help me with this, I''ll need some &blava&r.'
+      - 'Only lava from the &bNether&r is hot enough though.'
+      - 'Take these &bbuckets&r. Can you fill them with &blava&r from the &bNether&r?'
+  hidden-rewards:
+    item: { Bucket: 8 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: FillLavaForBertie
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  constraints:
+    world: { win_nether: true }
+  messages:
+    Title: The Fires of Mount Doom
+    Description: [ 'Bertie needs more power for his forge.', 'Lava from the Nether can produce the heat needed.' ]
+  goals:
+    lava: { Type: BucketFill, Title: 'Collect Lava in the Nether', Quota: 8, Items: [ Lava-Bucket ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringLavaToBertie
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: The Fires of Mount Doom
+    Description: [ 'You filled the buckets with lava from the Nether.', 'Bertie will be pleased.' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: SpawnBlacksmith
+      Title: You got the Lava?!
+  goals:
+    lava:
+      Type: DeliverItems
+      Title: Give the Lava Buckets to Bertie
+      AnimalNames: [ SpawnBlacksmith ]
+      Quota: 8
+      Items: [ Lava-Bucket ]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BertieThanksForLava
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: 'Bertie''s next Request'
+    Description: [ 'Bertie has the lava.', 'What else could he need?' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talk to Bertie the Blacksmith
+      AnimalNames: [ SpawnBlacksmith ]
+      HideScore: true
+      Messages:
+      - 'Thank you for the lava. It will make my forge much more powerful.'
+      - '...'
+      - 'Darn, that lava melts right through my tools.'
+      - 'Say, did you encounter any Blazes in the Nether?'
+      - 'They drop one of the most heat resistent materials known to man.'
+      - 'With those and the lava combined, I can bend you any metal.'
+      - 'A couple of fresh &bBlaze Rods&r will make this forge complete.'
+      - 'Drink this to protect you against their fire charges.'
+  hidden-rewards:
+    item: { 'potion:8195': 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: KillBlazesForBertie
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: Out of the Frying Pan...
+    Description: [ 'Bertie needs blaze rods to deal with the heat.', 'Get them from blazes in the Nether.' ]
+  goals:
+    blazes: { Type: MobKill, Title: 'Kill Blazes', Quota: 10, Entities: [ Blaze ] }
+  hidden-rewards:
+    item: { blaze_rod: 5 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringBlazeRodsToBertie
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: Blaze Rods for Bertie
+    Description: [ 'That was rather heated.', 'Bertie can use the blaze rods.' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: SpawnBlacksmith
+      Title: Back already?
+  goals:
+    rods:
+      Type: DeliverItems
+      Title: Give Bertie the Blaze Rods
+      AnimalNames: [ SpawnBlacksmith ]
+      Quota: 8
+      Items: [ Blaze_rod ]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BertieThanksForBlazeRods
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: 'Bertie Bertie Bertie'
+    Description: [ 'Bertie has the lava and the blaze rods.', 'His forge should be quite efficient.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talk to Bertie the Blacksmith
+      AnimalNames: [ SpawnBlacksmith ]
+      HideScore: true
+      Messages:
+      - 'Thank you for the blaze rods, they are just what I needed.'
+      - 'Now everything is in place so I can craft the epic armor for McGuffin.'
+      - '&8*looks at you*'
+      - '&8...'
+      - 'Uhm, you brought the &biron ore&r, right?'
+      - 'Oh, silly me. I should have told you...'
+      - 'What the man really needs is &bchainmail armor&r.'
+      - '&bChainmail&r is light to wear but strong at the same time.'
+      - 'Not many blacksmiths know how to make chainmail armor, but I do.'
+      - 'What I need is some &biron ore&r.'
+      - 'If you can bring me some &biron ore&r, we will be able to make McGuffin really happy.'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringIronOreToBertie
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: 'Iron Bertie'
+    Description: [ 'Bertie needs iron ore to make chainmail armor.', 'Let''s do it for old McGuffin.' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: SpawnBlacksmith
+      Title: Got the Iron Ore?
+  goals:
+    iron:
+      Type: DeliverItem
+      Title: 'Bring Bertie Iron Ore'
+      Quota: 24
+      AnimalNames: [ SpawnBlacksmith ]
+      Materials: [ Iron-Ore ]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BertieThanksForIronOre
+  CompassTarget: '#AdviceAnimal:SpawnBlacksmith'
+  messages:
+    Title: Bertie the Blacksmith
+    Description: [ 'Bertie should be all set.', 'Can he make us the chainmail armor?' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talk to Bertie the Blacksmith
+      AnimalNames: [ SpawnBlacksmith ]
+      HideScore: true
+      Messages:
+      - 'Oh thank you!'
+      - 'I was about to give up and make McGuffin some weak golden armor.'
+      - 'Just to watch him get disappointed and lose his spirits.'
+      - 'The old man deserves better. He is an inspiration for all of us.'
+      - 'If you could give me some time to work on this, I would be most appreciative.'
+      - 'Actually..'
+      - 'Do you know Walt? Walt the Watchman?'
+      - 'He asked me to brew more of his favorite drink for him.'
+      - 'I made the drink, but haven''t gotten around to giving it to him.'
+      - 'Do you mind? He gets very crabby when he''s without the stuff for too long.'
+      - 'Bring this &bdrink&r to &bWalt&7 and visit me later for the armor.\nI wouldn''t taste it if I was you.'
+  hidden-rewards:
+    item: { 'Potion:8196|name=&rWalt''s Drink': 4 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringDrinkToWalt
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: A Drink for Walt
+    Description: [ 'Bertie wants you to bring the drink to Walt.', 'Walt must be thirsty.' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: WatchmanWalt
+      Title: Booze?
+  goals:
+    drink:
+      Type: DeliverItem
+      Title: Give Walt his Drink
+      Quota: 4
+      Items: [ 'Potion:8196', 'Potion:8260', 'Potion:8228', 'Potion:8292' ]
+      AnimalNames: [ WatchmanWalt ]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: WaltThanksForDrink
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Happy Walt
+    Description: [ 'Walt looks happy with his drink.', 'Let''s see what he has to say.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      AnimalNames: [ WatchmanWalt ]
+      Title: Talk to Walt
+      Messages:
+      - 'Hey, you brought me my favorite drink.'
+      - 'Bertie is a good man.'
+      - 'Thank you. &8*hic*'
+      - 'Hmm he didn''t have any ice, did he?'
+      - 'It''s hot up here and drinks taste better when they''re cold.'
+      - 'Can you find me some ice? &8*burp*'
+  rewards:
+    item: { bonemeal: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BringIceToWalt
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Ice Ice Baby
+    Description: [ 'Walt needs ice to enjoy his drink even more.', 'It''s not like we have anything better to do...' ]
+  effects:
+    chest:
+      Type: DeliveryChest
+      AnimalName: WatchmanWalt
+      Title: 'Got some ice?'
+  goals:
+    ice:
+      Type: DeliverItem
+      Title: 'Give Walt some Ice'
+      Quota: 10
+      AnimalNames: [ WatchmanWalt ]
+      Items: [ Ice ]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: WaltSaysDrink
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: 'Walt''s Challenge'
+    Description: [ 'Walt is staring at you.', 'What does he want?' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: Talk to Walt
+      AnimalNames: [ WatchmanWalt ]
+      Messages:
+      - 'Finally, we can drink.'
+      - 'Are you a tough guy? &8>.>'
+      - 'Drink!'
+  rewards:
+    item: { 'Potion:8196|name=&rDrink': 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: DrinkWithWalt01
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Drink!
+    Description: [ 'Walt challenges you to a drinking contest.', 'His drinks smell poisonous.' ]
+  effects:
+    walt: { Type: AdviceAnimal, AnimalName: WatchmanWalt, Messages: [ 'Drink!' ] }
+  goals:
+    drink: { Type: Consume, Title: 'Drink the Poison Potion', Items: [ 'Potion:8196', 'Potion:8260', 'Potion:8228', 'Potion:8292' ] }
+  rewards:
+    item: { 'Potion:8196|name=&rDrink': 1 }
+  hidden-rewards:
+    effect: { Confusion: 900 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: DrinkWithWalt02
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Drink!
+    Description: [ 'Walt challenges you to a drinking contest.', 'His drinks smell poisonous.' ]
+  effects:
+    walt: { Type: AdviceAnimal, AnimalName: WatchmanWalt, Messages: [ 'Drink! Drink!' ] }
+  goals:
+    drink: { Type: Consume, Title: 'Drink the Poison Potion', Items: [ 'Potion:8196', 'Potion:8260', 'Potion:8228', 'Potion:8292' ] }
+  rewards:
+    item: { 'Potion:8228|name=&rDrink': 1 }
+  hidden-rewards:
+    effect: { Blindness: 900 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: DrinkWithWalt03
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Drink!
+    Description: [ 'Walt challenges you to a drinking contest.', 'His drinks smell poisonous.' ]
+  effects:
+    walt: { Type: AdviceAnimal, AnimalName: WatchmanWalt, Messages: [ 'Drink! Drink! Drink!' ] }
+  goals:
+    drink: { Type: Consume, Title: 'Drink the Poison Potion', Items: [ 'Potion:8196', 'Potion:8260', 'Potion:8228', 'Potion:8292' ] }
+  hidden-rewards:
+    effect: { Hunger: 600 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: DrinkWater
+  messages:
+    Title: Thirsty
+    Description: [ 'Oh my, that contest made you thirsty.', 'Can''t go on without some water.' ]
+  effects:
+    walt: { Type: AdviceAnimal, AnimalName: WatchmanWalt, Messages: [ 'Dude, you just blew me away. &8*hic*', 'I wouldn''t have thought you could hold your liquor like that. &8*buuurp*', 'Are you ok though? You look queasy.' ] }
+  goals:
+    drink: { Type: Consume, Title: 'Drink from a Water Bottle', Quota: 1, Items: [ 'Potion:0' ] }
+  hidden-rewards:
+    effect: { Regeneration: 200 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BertieHasTheArmor
+  messages:
+    Title: Back to Bertie
+    Description: [ 'That was kind of weird.', 'I wonder if Bertie has completed the armor.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimals
+      Title: Talk to Bertie the Blacksmith
+      AnimalNames: [ SpawnBlacksmith ]
+      HideScore: true
+      Messages:
+      - 'Oh hi. I was jus-'
+      - '...'
+      - 'Gosh, you look terrible.'
+      - 'You haven''t been drinking with Walt, have you? &8>.>'
+      - 'I told you to stay away from that.'
+      - 'Well, never mind that.'
+      - 'At any rate, I have the &bchainmail armor&r.'
+      - 'It is light as a feather, but also strong as steel.'
+      - 'McGuffin will be taken aback that it isn''t made out of gold.'
+      - 'Just tell him that I gave my word, and he seems to trust you anyway.'
+      - 'Should there be any doubt, I can make him a golden armor any time.'
+      - 'But it will fade in comparison to this.'
+      - 'This is the best armor he can get his hands on.'
+  rewards:
+    item:
+      'Chainmail_Helmet:-165': 1
+      'Chainmail_Chestplate:-240': 1
+      'Chainmail_Leggings:-225': 1
+      'Chainmail_Boots:-195': 1
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: ShowArmorToMcGuffin
+  messages:
+    Title: Armor Show
+    Description: [ 'Impress McGuffin with the chainmail armor.', 'Show it to him by wearing it.' ]
+  constraints:
+    armor:
+      Helmet: [ Chainmail-Helmet ]
+      Chestplate: [ Chainmail-Chestplate ]
+      Leggings: [ Air ]
+      Boots: [ Air ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      AnimalNames: [ SpawnPriest ]
+      Title: Talk to McGuffin
+      HideScore: true
+      Messages:
+      - 'Oh hi!'
+      - 'What is this? ...'  
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: Completed
+  messages:
+    Title: 'CONGLATURATION !!!'
+    Description: [ 'YOU HAVE COMPLETED A GREAT GAME.', 'AND PROOVED THE JUSTICE OF OUR CULTURE.' ]
+  goals:
+    foo: { Type: Dummy, Title: 'NOW GO AND REST OUR HEROES !' }

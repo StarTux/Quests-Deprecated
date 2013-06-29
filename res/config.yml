@@ -1,0 +1,9 @@
+sql:
+  enable: false
+  Hostname: localhost
+  Port: 3306
+  Database: mc
+  User: mc
+  Password: mc
+DefaultCategory: Honored
+AutoUpdateInterval: 3

@@ -1,0 +1,355 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Beginner.yml
+# The Quest category called "Beginner"
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+Name: Honored
+DisplayName: 'Honored Quest'
+Description:
+- 'Let''s get started! You have arrived in the world of Winthier,
+   which is a strange place. Try to find out what is going on in
+   Spawn Village.'
+Icon: Wood-Pickaxe
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# This is a specification of the quests.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# - Name: ...
+#   messages:
+#     Title: String
+#     Description: String(List)
+#   effects:
+#     effectkey:
+#       Type: ...
+#       ...
+#   goals:
+#     Goal:
+#       Type: ...
+#       Title: ...
+#       ...
+#   rewards:
+#     ...
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Quest: A quest has some generic and some specific data.
+#   Specific data are in the data section.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+quests:
+- Name: SayHi
+  messages:
+    Title: 'Say Hi'
+    Description: [ 'Welcome to Winthier.', 'Greet your fellow players on the server.' ]
+  goals:
+    hi: { Type: Chat, Title: 'Say Hi', Quota: 1, Strings: [ '.*[Hh]i.*', '.*[Hh]ello.*' ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: TypeQuest
+  messages:
+    Title: 'Say Hi'
+    Description: [ 'What''s this? A quest?', 'Type "/quest" or "/q" to bring up the quest info.' ]
+  goals:
+    quest: { Type: Command, Title: 'Bring up the quest info', Quota: 1, Strings: [ '/quest', '/q' ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: WelcomeCats
+  constraints:
+    WGRegion: { spawn: true }
+  messages:
+    Title: 'Welcome Cats'
+    Description: [ 'You''ve appeared in a strange place.', 'Talk to the helpful cats at spawn.' ]
+  goals:
+    welcome:
+      Type: AdviceAnimal
+      Title: 'Talk to the Welcome Cat'
+      AnimalNames: [ WelcomeCat ]
+      Messages:
+      - Welcome to &bWinthier,&r meow.
+      - I hear you are on an &badventure&r?
+      - I wish you the best of luck, like many adventurers before you.
+      - 'First you should talk to the &bLumberjack Wolf&r, the &bFarmer''s Dog&r and &bPriest McGuffin&r.'
+    whattodo:
+      Type: AdviceAnimal
+      Title: 'Talk to the What To Do Cat'
+      AnimalNames: [ WhatToDoCat ]
+      Messages:
+      - 'Winthier is a large server with many things to do.'
+      - 'Take a break from your quests anytime and do what you want.'
+      - 'Whenever you don''t know what to do, ask me. I know this server.'
+      - 'You should also meet the &bLumberjack Wolf&r, the &bFarmer''s Dog&r and &bPriest McGuffin&r.'
+  rewards:
+    item: { compass: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: LumberjackWolf
+  CompassTarget: '#AdviceAnimal:LumberjackWolf'
+  messages:
+    Title: 'Tree Farm'
+    Description: [ 'Might as well prepare. Find the Tree Farm.', 'Your compass will show you the way.' ]
+  goals:
+    dog: { Type: AdviceAnimal, Title: 'Talk to the Lumberjack Wolf', Quota: 3, AnimalNames: [ LumberjackWolf ] }
+  rewards:
+    item: { stone-axe: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: CollectWood
+  CompassTarget: '#AdviceAnimal:LumberjackWolf'
+  constraints:
+    WGRegion: { treefarm: true }
+  messages:
+    Title: Chopping Wood
+    Description: [ 'Let''s get to it. Collect some wood in this farm.' ]
+  goals:
+    oak: { Type: BlockBreak, Title: 'Chop Oak', Quota: 16, MustBeNatural: true, Items: [ 'Log:0', 'Log:4', 'Log:8' ] }
+    birch: { Type: BlockBreak, Title: 'Chop Birch', Quota: 16, MustBeNatural: true, Items: [ 'Log:2', 'Log:6', 'Log:10' ] }
+    spruce: { Type: BlockBreak, Title: 'Chop Spruce', Quota: 16, MustBeNatural: true, Items: [ 'Log:1', 'Log:5', 'Log:9' ] }
+    jungle: { Type: BlockBreak, Title: 'Chop Jungle', Quota: 16, MustBeNatural: true, Items: [ 'Log:3', 'Log:7', 'Log:11' ] }
+    replant: { Type: BlockPlace, Title: 'Replant', Quota: 12, Items: [ Sapling ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: FarmerDog
+  CompassTarget: '#AdviceAnimal:FarmerDog'
+  messages:
+    Title: 'Food Farm'
+    Description: [ 'Your stomach is rumbling from all that hard work.', 'Follow your compass to find the farms.' ]
+  goals:
+    dog: { Type: AdviceAnimal, Title: 'Talk with the Farmer Dog', Quota: 3, AnimalNames: [ FarmerDog ] }
+  rewards:
+    item: { bonemeal: 64, stone-hoe: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: GetFood
+  CompassTarget: '#AdviceAnimal:FarmerDog'
+  constraints:
+    WGRegion: { spawnfarm: true }
+  messages:
+    Title: Getting Food
+    Description: [ 'Now that you know the rules, it''s time to harvest.', 'Collect some food for your journey.' ]
+  goals:
+    wheat: { Type: BlockBreak, Title: 'Collect wheat', Quota: 32, Items: [ 'Crops:7' ] }
+    potatoes: { Type: BlockBreak, Title: 'Collect potatoes', Quota: 16, Items: [ 'Potato:7' ] }
+    carrots: { Type: BlockBreak, Title: 'Collect carrots', Quota: 16, Items: [ 'Carrot:7' ] }
+    replant: { Type: BlockPlace, Title: 'Replant', Quota: 64, Items: [ 'Crops:0', 'Potato:0', 'Carrot:0' ] }
+  rewards:
+    item: { bread: 16 }
+    food: { Level: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: EatAll
+  messages:
+    Title: Time to Eat
+    Description: [ 'Enjoy your meal!' ]
+  goals:
+    bread: { Type: Eat, Title: 'Eat a loaf of bread', Quota: 1, Items: [ Bread ] }
+    potato: { Type: Eat, Title: 'Eat a potato', Quota: 1, Items: [ Potato-Item ] }
+    carrot: { Type: Eat, Title: 'Eat a carrot', Quota: 1, Items: [ Carrot-Item ] }
+  rewards:
+    food: { FoodLevel: 20 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: SayHiToPriest
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Say your prayers
+    Description: [ 'Perhaps the priest will have some answers.', 'Follow your compass to find the church.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Talk to Priest McGuffin'
+      AnimalNames: [ SpawnPriest ]
+      Messages:
+      - 'I don''t have any answers for you.'
+      - 'I don''t know why you''re here.'
+      - 'But your arrival must have a purpose.'
+      - 'Maybe &bWalt&r can put you to use.'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: SayHiToWalt
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Wandering over to Walt
+    Description: [ 'Find Walt the Watchman.', 'Follow your compass to find him.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Talk to Walt the Watchman'
+      AnimalNames: [ WatchmanWalt ]
+      Messages:
+      - 'Who goes there? &8*burp*'
+      - 'Do I know you?'
+      - 'Oh, McGuffin sent you. &8*belch*'
+      - 'Well, you don''t look like much. Can you fight?'
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: FirstMobArena
+  messages:
+    Title: MobArena
+    Description: [ 'Practice fighting in the Mob Arena.', 'Type "/ma j" to join.' ]
+  goals:
+    wave: { Type: MobArena, Title: 'Make it to wave 10.', Quota: 1, Arenas: [ Default ], Wave: 10 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: BackToWalt
+  CompassTarget: '#AdviceAnimal:WatchmanWalt'
+  messages:
+    Title: Waltzing back to Walt
+    Description: [ 'Good job. Report back to Walt.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Talk to Walt the Watchman'
+      AnimalNames: [ WatchmanWalt ]
+      Messages:
+      - 'Impressive. Looks like you are good for something. &8*burp*'
+      - 'Maybe we can use you in the future.'
+      - 'But if you want to be like me, &8*belch*\n...you have to show me your survival skills.'
+      - 'You need to set up camp in the wilderness and gather supplies.'
+      - 'Before you go, don''t forget to talk to &bMcGuffin&r. &8*buurrrrp*'
+      - 'Oh, and you should take this. I snagged it out of the captain''s secret stash.'
+  hidden-rewards:
+    item: { 'Potion:8258|name=&rSir Peat''s Malt': 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: FarewellMcGuffin
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Goodbye, McGuffin
+    Description: [ 'Talk to the priest before going on your adventure.' ]
+  goals:
+    dialogue:
+      Type: AdviceAnimal
+      Title: 'Talk to Priest McGuffin'
+      AnimalNames: [ SpawnPriest ]
+      Messages:
+      - 'Oh, it''s you again. Welcome back, my son.'
+      - '&lWhaaat?!&r Where is Walt sending you?'
+      - 'On wilderness training? But that''s insane!'
+      - 'That old buffoon. You''re not really going out there, are you?'
+      - 'Are you?!'
+      - 'Really???'
+      - 'Well, if you''ve already made up your mind, I guess I can''t stop you...'
+      - 'But it''s dangerous to go alone. Take this.'
+  rewards:
+    item: { stone-sword: 1 }
+    xplevel: { Level: 15 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: EnchantSword
+  CompassTarget: '#AdviceAnimal:SpawnPriest'
+  messages:
+    Title: Enchanting the Sword
+    Description: [ 'Be sure to enchant your weapon before heading out in the wild.' ]
+  goals:
+    sword: { Type: EnchantItem, Title: 'Enchant the Stone Sword', Quota: 1, Items: [ Stone-Sword ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: TravelDog
+  CompassTarget: '#AdviceAnimal:TravelDog'
+  messages:
+    Title: Travel Station
+    Description: [ 'You are ready for the next step.', 'Prepare to head out ot the wilderness.' ]
+  goals:
+    travis: { Type: AdviceAnimals, Title: 'Talk to Travis the Travel Dog', Quota: 3, AnimalNames: [ TravelDog ] }
+  hidden-rewards:
+    item: { leather-helmet: 1, leather-chestplate: 1, leather-leggings: 1, leather-boots: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: SetHome
+  constraints:
+    World: { win: true }
+    WGRegion: { spawn: false, market: false }
+  messages:
+    Title: Finding a place to live
+    Description: [ 'Time to leave.', 'Use the Travel Station to find a place in the Wilderness.', 'Set a home there.' ]
+  goals:
+    sethome: { Type: Command, Title: 'Type "/sethome" in the wilderness', Quota: 1, Strings: [ '/sethome' ] }
+  rewards:
+    item: { chest: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: FirstChest
+  constraints:
+    World: { win: true }
+    WGRegion: { spawn: false, market: false }
+  messages:
+    Title: Placing a chest
+    Description: [ 'Placing your first chest will create a claim.', 'Use claims to protect your land.' ]
+  goals:
+    chest: { Type: BlockPlace, Title: 'Place your first chest.', Quota: 1, Items: [ Chest ] }
+  rewards:
+    item: { stone-pickaxe: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: MiningCoal
+  constraints:
+    World: { win: true }
+    WGRegion: { spawn: false, market: false }
+  messages:
+    Title: Finding Fuel
+    Description: [ 'You''l need coal for torches and as fuel.', 'You can find lots by going caving.' ]
+  goals:
+    coal: { Type: BlockBreak, MustBeNatural: true, Title: 'Mine Coal Ore', Items: [ Coal-Ore ], Quota: 20 }
+  rewards:
+    item: { cake: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: TorchUp
+  constraints:
+    World: { win: true }
+    WGRegion: { spawn: false, market: false }
+  messages:
+    Title: Torching Up
+    Description: [ 'Lit up areas are protected from monsters.', 'Use torches to light up the area.' ]
+  goals:
+    torch: { Type: BlockPlace, Title: 'Place Torches', Items: [ Torch ], Quota: 32 }
+  rewards:
+    item: { fishing_rod: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: CatchFood
+  messages:
+    Title: Hunter
+    Description: [ 'One basic aspect of survival is catching food.', 'You should hunt some animals.' ]
+  constraints:
+    WGRegion: { spawn: false, market: false }
+  goals:
+    cows: { Type: KillMobs, Title: 'Hunt cows', Quota: 3, Entities: [ 'Cow:adult' ] }
+    pigs: { Type: KillMobs, Title: 'Hunt pigs', Quota: 3, Entities: [ 'Pig:adult' ] }
+    chicken: { Type: KillMobs, Title: 'Hunt chicken', Quota: 3, Entities: [ 'Chicken:adult' ] }
+    fish: { Type: Fish, Title: 'Catch Fish', Quota: 3, Entities: [ Raw-Fish ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: MakeDinner
+  messages:
+    Title: A hearty Meal
+    Description: [ 'Meat tastes better when it''s cooked in a furnace.' ]
+  goals:
+    cook: { Type: Cooking, Title: 'Cook Meat', Items: [ Cooked-Beef, Cooked-Chicken, Cooked-Fish, Grilled-Pork ] }
+    eat: { Type: Eating, Title: 'Eat it', Items: [ Cooked-Beef, Cooked-Chicken, Cooked-Fish, Grilled-Pork ] }
+  rewards:
+    item: { stone_hoe: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: MakeFarm
+  messages:
+    Title: Making a Farm
+    Description: [ 'Use a hoe to turn dirt into soil.', 'Then plant some wheat, carrots and potatoes' ]
+  constraints:
+    World: { win: true }
+    WGRegion: { spawn: false, market: false }
+  goals:
+    hoe:
+      Type: BlockInteract
+      Title: 'Hoe dirt'
+      Quota: 16
+      Items: [ Dirt, Grass ]
+      constraints:
+        ItemInHand: { Items: [ Diamond-Hoe, Gold-Hoe, Iron-Hoe, Stone-Hoe, Wood-Hoe ] }
+    plant: { Type: BlockPlace, Title: 'Plant Seeds', Quota: 16, Items: [ Crops, Carrot, Potato ] }
+  rewards:
+    item: { bow: 1 }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: HuntMonsters
+  constraints:
+    WGRegion: { spawn: false, market: false }
+  messages:
+    Title: Monster Hunter
+    Description: [ 'Monsters keep trying to swarm your base at night.', 'It''s better to act now before they get to you.' ]
+  goals:
+    zombies: { Type: KillMobs, Title: 'Kill Zombies', Quota: 3, Entities: [ Zombie ] }
+    skellies: { Type: KillMobs, Title: 'Kill Skellies', Quota: 3, Entities: [ Skeleton ] }
+    spiders: { Type: KillMobs, Title: 'Kill Spiders', Quota: 3, Entities: [ Spider ] }
+    creepers: { Type: KillMobs, Title: 'Kill Creepers', Quota: 3, Entities: [ Creeper ] }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: MakeBedroom
+  messages:
+    Title: Making your Bed
+    Description: [ 'It''s been a long day. Time to get some rest.' ]
+  goals:
+    craft: { Type: Crafting, Title: 'Craft a Bed' }
+    sleep: { Type: Sleeping, Title: 'Sleep in it' }
+  rewards:
+    rank: { From: Friendly, To: Honored }
+    category: { Current: Revered }
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+- Name: Completed
+  messages:
+    Title: 'CONGLATURATION !!!'
+    Description: [ 'YOU HAVE COMPLETED A GREAT GAME.', 'AND PROOVED THE JUSTICE OF OUR CULTURE.' ]
+  goals:
+    foo: { Type: Dummy, Title: 'NOW GO AND REST OUR HEROES !' }
